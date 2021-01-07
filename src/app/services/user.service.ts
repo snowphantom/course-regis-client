@@ -8,8 +8,5 @@ export class UserService {
   constructor(
     private http: Http
   ) { }
-
-  login(username: string, password: string) {
-    return this.http.get('https://google.com/');
-  }
+  
 }
