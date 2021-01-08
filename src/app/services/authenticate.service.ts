@@ -1,10 +1,10 @@
 import { Injectable, Testability } from '@angular/core';
-import { Http } from '@angular/http';
-import { User } from 'app/models/User';
-import { environment } from 'environments/environment';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 import { AlertService } from './common/alert.service';
 import { catchError, map } from "rxjs/operators";
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { User } from '../models/User';
 
 @Injectable()
 export class AuthenticateService {
@@ -16,7 +16,7 @@ export class AuthenticateService {
   public currentUser: Observable<User>;
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) { }
 
   login(username: string, password: string) : Observable<any> {

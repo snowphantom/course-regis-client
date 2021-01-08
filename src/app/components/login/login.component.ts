@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthenticateService } from 'app/services/authenticate.service';
+import { ToastService } from 'ng-uikit-pro-standard';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { AlertService } from '../../services/common/alert.service';
 import { UserService } from '../../services/user.service';
 
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticateService: AuthenticateService,
     private alertService: AlertService,
+    private toastService: ToastService
   ) {
     if (this.authenticateService.currentUser) {
       this.router.navigate(['/']);
@@ -51,7 +53,9 @@ export class LoginComponent implements OnInit {
       .subscribe(result => {
         if (result.success) {
           this.router.navigate(['/']);
-        } else {}
+        } else {
+          this.toastService.error(result.message);
+        }
       });
   }
 }

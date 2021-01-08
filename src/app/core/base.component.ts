@@ -1,10 +1,9 @@
-import { Subject } from "rxjs/Subject";
+
 import { InjectDecorator, OnDestroy, Type } from '@angular/core';
-import { AlertService } from "app/services/common/alert.service";
 import { ToastService } from 'ng-uikit-pro-standard';
+import { AlertService } from '../services/common/alert.service';
 
 export abstract class BaseComponent implements OnDestroy {
-    protected destroy$ = new Subject();
 
     
     constructor(
@@ -15,7 +14,7 @@ export abstract class BaseComponent implements OnDestroy {
     }
     
     ngOnDestroy(): void {
-        this.destroy$.next(true);
+       //this.destroy$.next(true);
     }
 
 }
