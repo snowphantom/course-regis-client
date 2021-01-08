@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
+import { AuthenticateService } from 'app/services/authenticate.service';
 import { AlertService } from '../../services/common/alert.service';
 import { UserService } from '../../services/user.service';
 
@@ -19,10 +20,10 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
+    private authenticateService: AuthenticateService,
     private alertService: AlertService,
   ) {
-    if (this.userService.currentUser) {
+    if (this.authenticateService.currentUser) {
       this.router.navigate(['/']);
     }
   }
@@ -46,12 +47,11 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.login(this.f.get('username').value, this.f.get('password').value)
-      .subscribe((result) => {
-        this.router.navigate([this.returnUrl]);
-      }, (err) => {
-        this.alertService.error(err);
-        this.loading = false;
+    this.authenticateService.login(this.f.get('username').value, this.f.get('password').value)
+      .subscribe(result => {
+        if (result.success) {
+          this.router.navigate(['/']);
+        } else {}
       });
   }
 }
