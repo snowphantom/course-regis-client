@@ -1,19 +1,47 @@
 <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<!-- <nav class="navbar navbar-dark bg-dark">
   <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/">Home</a>
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    <a class="nav-item nav-link" routerLink="/">Trang chủ</a>
   </div>
-</nav>
-
-
-<!-- main app container -->
-<div class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 offset-sm-3">
-        <router-outlet></router-outlet>
-      </div> 
+  <div class="navbar-nav nav-right">
+      <a *ngIf="currentUser" class="nav-item nav-link" (click)="logout()">Đăng xuất</a>
+      <a *ngIf="!currentUser" class="nav-item nav-link" routerLink="/login">Đăng nhập</a>
     </div>
-  </div>
+</nav> -->
+<div class="example-container">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    
+    <span style="margin-left: 10px">Trang chủ</span>
+    
+    <span class="example-spacer"></span>
+    
+    <button *ngIf="currentUser" (click)="logout()" mat-icon-button matTooltip="Đăng xuất">
+      <mat-icon>login</mat-icon>
+    </button>
+
+    <button *ngIf="!currentUser" (click)="login()" mat-icon-button matTooltip="Đăng nhập">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list>
+        <mat-list-item *ngFor="let nav of fillerNav">
+          <a *ngIf="currentUser" mat-list-item (click)="selectNavItem(nav)" >{{nav.name}}</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

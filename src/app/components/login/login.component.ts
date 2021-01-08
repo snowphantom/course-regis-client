@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
-import { ToastService } from 'ng-uikit-pro-standard';
+import { ToastrService } from 'ngx-toastr';
+import { first } from 'rxjs/operators';
+import { User } from 'src/app/models/User';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { AlertService } from '../../services/common/alert.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -17,20 +18,29 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
 
+  currentUser: User;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticateService: AuthenticateService,
-    private alertService: AlertService,
-    private toastService: ToastService
+    private toastrService: ToastrService
   ) {
-    if (this.authenticateService.currentUser) {
-      this.router.navigate(['/']);
-    }
+
   }
 
   ngOnInit() {
+    this.authenticateService.currentUserSubject.subscribe(user => {
+      this.currentUser = user;
+
+      if (this.currentUser && this.currentUser.token) {
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 300);
+      }
+    });
+
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -50,12 +60,22 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     this.authenticateService.login(this.f.get('username').value, this.f.get('password').value)
-      .subscribe(result => {
-        if (result.success) {
-          this.router.navigate(['/']);
-        } else {
-          this.toastService.error(result.message);
+      .pipe(first())
+      .subscribe(
+        result => {
+          if (result.success) {
+            this.submitted = false;
+            this.loading = false;
+
+            this.toastrService.success(result.message);
+          }
+        },
+        err => {
+          this.submitted = false;
+          this.loading = false;
+
+          this.toastrService.error(err.error && err.error.message || err);
         }
-      });
+      )
   }
 }
