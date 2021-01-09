@@ -13,14 +13,14 @@ export class AuthenticateService {
   private baseApi = `${this.host}/api/user`;
 
   public currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  public currentUser: User;
 
   constructor(
     private http: HttpClient,
     private toastrService: ToastrService
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserSubject.subscribe(x => this.currentUser = x);
    }
 
   login(username: string, password: string) : Observable<any> {
@@ -30,6 +30,7 @@ export class AuthenticateService {
           if (res && res.data) {
             this.currentUser = res.data;
             localStorage.setItem('currentUser', JSON.stringify(res.data));
+            localStorage.setItem('access_token', res.data.token)
             this.currentUserSubject.next(res.data)
           }
           return res;
@@ -39,6 +40,7 @@ export class AuthenticateService {
 
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('access_token');
     this.currentUserSubject.next(undefined);
   }
 }

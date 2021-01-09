@@ -12,9 +12,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { Overlay, OverlayContainer, ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule, MatTabsModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatNativeDateModule } from '@angular/material';
-import { DemoMaterialModule } from './material.module';
+import { DemoMaterialModule } from './material/material.module';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { TimeTableComponent } from './components/time-table/time-table.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { InformationComponent } from './components/information/information.component';
+import { CourseComponent } from './components/course/course.component';
+import { NgZeeTimeTableModule } from 'ng-zee-timetable';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -22,7 +28,11 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     HomeComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    TimeTableComponent,
+    RegistrationComponent,
+    InformationComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +50,14 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     AppRoutingModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgZeeTimeTableModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('access_token'),
+        allowedDomains: ['localhost:3000']
+      }
+    })
   ],
   providers: [
     UserService,

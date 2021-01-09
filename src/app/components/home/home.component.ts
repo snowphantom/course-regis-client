@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/User';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { CourseService } from 'src/app/services/course.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +11,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  currentUser: User;
 
-  constructor() { }
+
+  constructor(
+    private authenticateService: AuthenticateService,
+    private router: Router,
+    private courseService: CourseService,
+    private toastrService: ToastrService,
+  ) { }
 
   ngOnInit() {
+    this.authenticateService.currentUserSubject.subscribe(user => {
+      this.currentUser = user;
+
+      if (!user) {
+        this.router.navigate(['/login']);
+      }
+    });
+
+    this.courseService.init().subscribe(items => {
+      
+    }, err => {
+      let message = err.error ? err.error.message : err.message;
+      this.toastrService.error(message);
+    });
   }
 
 }
