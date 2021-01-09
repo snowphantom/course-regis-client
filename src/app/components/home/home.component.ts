@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/User';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { CourseService } from 'src/app/services/course.service';
+import { UserType } from "../../common/bunchOfEnum";
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { CourseService } from 'src/app/services/course.service';
 })
 export class HomeComponent implements OnInit {
   currentUser: User;
-
+  UserType = UserType;
 
   constructor(
     private authenticateService: AuthenticateService,
@@ -30,12 +31,13 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.courseService.init().subscribe(items => {
-      
-    }, err => {
-      let message = err.error ? err.error.message : err.message;
-      this.toastrService.error(message);
-    });
+    if (this.currentUser) {
+      this.courseService.init().subscribe(items => {
+        console.log(items);
+      }, err => {
+        let message = err.error ? err.error.message : err.message;
+        this.toastrService.error(message);
+      });
+    }
   }
-
 }

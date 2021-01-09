@@ -13,7 +13,7 @@ import { DayOfWeek } from "../../common/bunchOfEnum";
 })
 export class TimeTableComponent implements OnInit {
 
-  data: NgZeeTimeTableData;
+  data: NgZeeTimeTableData = {};
 
   constructor(
     private registrationService: RegistrationService,
@@ -23,23 +23,16 @@ export class TimeTableComponent implements OnInit {
 
   ngOnInit() {
     const user = this.authenticateService.currentUser;
-    this.registrationService.getEnroll(user && user.username)
+    
+    if (user) {
+      this.registrationService.getEnroll(user && user.username)
       .subscribe(enrolled => {
-        this.data = registration2TimetableData(enrolled)
-        this.data = Object.assign(this.data, {
-          "Tuesday": {
-            "08:00": {
-              title: "Kỹ thuật lập trình",
-              subTitle: "Part 1",
-              endTime: "09:00"
-            }
-          },
-        });
-        console.log(this.data);
+        this.data = registration2TimetableData(enrolled);
       }, (err) => {
         let message = err.error ? err.error.message : err.message;
         this.toastrService.error(message);
-      })
+      });
+    }
   }
 
   options: NgZeeTimeTableOptions = {

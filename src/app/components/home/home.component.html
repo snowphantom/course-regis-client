@@ -1,16 +1,16 @@
 <div class="home position-top" layout-align="start center">
   <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Thời khóa biểu">
+    <mat-tab *ngIf="currentUser.type === UserType.Student" label="Thời khóa biểu">
       <ng-template matTabContent>
         <app-time-table></app-time-table>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Đăng ký">
+    <mat-tab label="Khóa học">
       <ng-template matTabContent>
         <app-registration></app-registration>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Thông tin đăng ký">
+    <mat-tab *ngIf="currentUser.type === UserType.Student" label="Thông tin đăng ký">
       <ng-template matTabContent>
         <app-information></app-information>
       </ng-template>

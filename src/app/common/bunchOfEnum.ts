@@ -8,3 +8,8 @@ export enum DayOfWeek {
     Sunday = 0
 }
 
+export enum UserType {
+    Admin = 0,
+    Student = 1
+}
+

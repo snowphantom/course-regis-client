@@ -21,6 +21,7 @@ import { InformationComponent } from './components/information/information.compo
 import { CourseComponent } from './components/course/course.component';
 import { NgZeeTimeTableModule } from 'ng-zee-timetable';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NewcourseFormComponent } from './components/newcourse-form/newcourse-form.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { JwtModule } from '@auth0/angular-jwt';
     TimeTableComponent,
     RegistrationComponent,
     InformationComponent,
-    CourseComponent
+    CourseComponent,
+    NewcourseFormComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +69,8 @@ import { JwtModule } from '@auth0/angular-jwt';
     OverlayContainer,
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NewcourseFormComponent]
 })
 export class AppModule { }
 

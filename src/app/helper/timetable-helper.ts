@@ -5,17 +5,18 @@ import { Registration } from "../models/Registration";
 export function registration2TimetableData(regis: Registration) {
     let tableData: NgZeeTimeTableData = {};
 
-    regis.enrolledCourse && regis.enrolledCourse.forEach(element => {
+    regis.enrolledCourse.forEach(element => {
         let dataDay = tableData[`${DayOfWeek[element.day]}`] || {};
         let dataElement = {
             title: element.name,
-            subTitle: 'abcd',
+            subTitle: element.venue,
             endTime: element.end_time
         }
-        let object = {};
-        object[`${element.start_time}`] = dataElement;
+        let item = {};
+        const startTime = element.start_time.length <= 4 ? `0${element.start_time}` : element.start_time;
+        item[startTime] = dataElement;
 
-        tableData[`${DayOfWeek[element.day]}`] = Object.assign({}, dataDay, object)
+        tableData[`${DayOfWeek[element.day]}`] = Object.assign({}, dataDay, item)
     });
 
     return tableData;

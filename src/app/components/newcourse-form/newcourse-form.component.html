@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Thêm mới</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-form-field style="width: 100%;">
+        <mat-label>Mã học phần</mat-label>
+        <input matInput [(ngModel)]="newCourse.code">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Học phần</mat-label>
+        <input matInput [(ngModel)]="newCourse.name">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Giảng đường</mat-label>
+        <input matInput [(ngModel)]="newCourse.venue">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Thứ</mat-label>
+        <mat-select matNativeControl required [(value)]="newCourse.day">
+            <mat-option value="1">Thứ 2</mat-option>
+            <mat-option value="2">Thứ 3</mat-option>
+            <mat-option value="3">Thứ 4</mat-option>
+            <mat-option value="4">Thứ 5</mat-option>
+            <mat-option value="5">Thứ 6</mat-option>
+            <mat-option value="6">Thứ 7</mat-option>
+          </mat-select>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Bắt đầu</mat-label>
+        <input matInput [(ngModel)]="newCourse.start_time">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Kết thúc</mat-label>
+        <input matInput [(ngModel)]="newCourse.end_time">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Course } from '../models/Course';
@@ -12,8 +12,11 @@ import { CourseService } from './course.service';
 })
 export class RegistrationService {
 
-  baseApi = `${environment.hostname}/api/registration/get-enroll`;
+  baseApi = `${environment.hostname}/api/registration`;
   courses: Course[];
+
+  registration: Registration;
+  registrationSubject = new Subject<Registration>();
 
   constructor(
     private http: HttpClient,
@@ -22,20 +25,58 @@ export class RegistrationService {
     this.courseService.coursesSubject.subscribe(x => {
       this.courses = x;
     });
+    this.registrationSubject.subscribe(regis => {
+      this.registration = regis;
+    });
    }
 
-  rollup(data) {
+  rollup(data) : Observable<Registration> {
+    const {username, code} = data;
+    if (!username || !code)
+      throw new Error('Vui lòng kiểm tra lại thông tin');
 
+    return this.http.post(`${this.baseApi}/rollup`, {username, code})
+      .pipe(
+        map((res: any) => {
+          if (res.success)
+          {
+            this.registrationSubject.next(this.mappingEnrolled(res.data));
+            return this.registration;
+          }
+          else
+            throw new Error(res.message);
+        })
+      )
+  }
+
+  rolloff(data) {
+    const {username, code} = data;
+    if (!username || !code)
+      throw new Error('Vui lòng kiểm tra lại thông tin');
+
+    return this.http.post(`${this.baseApi}/rolloff`, {username, code})
+      .pipe(
+        map((res: any) => {
+          if (res.success)
+          {
+            this.registrationSubject.next(this.mappingEnrolled(res.data));
+            return this.registration;
+          }
+          else
+            throw new Error(res.message);
+        })
+      );
   }
 
   getEnroll(username) : Observable<Registration> {
-    return this.http.get(this.baseApi, {
+    return this.http.get(`${this.baseApi}/get-enroll`, {
       params: {
         username
       }
     }).pipe(
       map((res: any) => {
-        return this.mappingEnrolled(res.data);
+        this.registrationSubject.next(this.mappingEnrolled(res.data));
+        return this.registration;
       })
     )
   }
