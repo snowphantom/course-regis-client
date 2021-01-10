@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { getDayOfWeekVN } from 'src/app/helper/date-helper';
 import { Course } from 'src/app/models/Course';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { RegistrationService } from 'src/app/services/registration.service';
@@ -34,7 +35,7 @@ export class InformationComponent implements OnInit {
   }
 
   getDayOfWeek(day: number) { 
-    return DayOfWeek[day];
+    return getDayOfWeekVN(day);
   }
 
   rolloff(course: Course) {

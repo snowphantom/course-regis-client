@@ -1,38 +1,64 @@
 <h2 mat-dialog-title>Thêm mới</h2>
 <mat-dialog-content class="mat-typography">
-    <mat-form-field style="width: 100%;">
-        <mat-label>Mã học phần</mat-label>
-        <input matInput [(ngModel)]="newCourse.code">
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Học phần</mat-label>
-        <input matInput [(ngModel)]="newCourse.name">
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Giảng đường</mat-label>
-        <input matInput [(ngModel)]="newCourse.venue">
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Thứ</mat-label>
-        <mat-select matNativeControl required [(value)]="newCourse.day">
-            <mat-option value="1">Thứ 2</mat-option>
-            <mat-option value="2">Thứ 3</mat-option>
-            <mat-option value="3">Thứ 4</mat-option>
-            <mat-option value="4">Thứ 5</mat-option>
-            <mat-option value="5">Thứ 6</mat-option>
-            <mat-option value="6">Thứ 7</mat-option>
-          </mat-select>
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Bắt đầu</mat-label>
-        <input matInput [(ngModel)]="newCourse.start_time">
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Kết thúc</mat-label>
-        <input matInput [(ngModel)]="newCourse.end_time">
-    </mat-form-field>
+    <form>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Mã học phần</mat-label>
+            <input [formControl]="code" matInput [(ngModel)]="newCourse.code">
+            <mat-error *ngIf="code.hasError('required')">
+            Vui lòng điền mã học phần
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field  style="width: 100%;">
+            <mat-label>Học phần</mat-label>
+            <input [formControl]="name" matInput [(ngModel)]="newCourse.name">
+            <mat-error *ngIf="name.hasError('required')">
+            Vui lòng điền tên học phần
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Giảng đường</mat-label>
+            <input [formControl]="venue" matInput [(ngModel)]="newCourse.venue">
+            <mat-error *ngIf="venue.hasError('required')">
+            Vui lòng điền giảng đường
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Thứ</mat-label>
+            <mat-select [formControl]="day" matNativeControl required [(value)]="newCourse.day">
+                <mat-option value="1">Thứ 2</mat-option>
+                <mat-option value="2">Thứ 3</mat-option>
+                <mat-option value="3">Thứ 4</mat-option>
+                <mat-option value="4">Thứ 5</mat-option>
+                <mat-option value="5">Thứ 6</mat-option>
+                <mat-option value="6">Thứ 7</mat-option>
+              </mat-select>
+            <mat-error *ngIf="day.hasError('required')">
+            Vui lòng chọn ngày trong tuần
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Bắt đầu</mat-label>
+            <input [formControl]="start_time" matInput [(ngModel)]="newCourse.start_time">
+            <mat-error *ngIf="start_time.hasError('pattern') && !start_time.hasError('required')">
+                Vui lòng kiểm tra lại thông tin
+            </mat-error>
+            <mat-error *ngIf="start_time.hasError('required')">
+                Vui lòng điền thời gian bắt đầu
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Kết thúc</mat-label>
+            <input [formControl]="end_time" matInput [(ngModel)]="newCourse.end_time">
+            <mat-error *ngIf="start_time.hasError('pattern') && !start_time.hasError('required')">
+                Vui lòng kiểm tra lại thông tin
+            </mat-error>
+            <mat-error *ngIf="end_time.hasError('required')">
+                Vui lòng điền thời gian kết thúc
+            </mat-error>
+        </mat-form-field>
+    </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+  <button mat-button (click)="onNoClick()">Hủy</button>
+  <button mat-raised-button color="primary" (click)="onOkClick()" cdkFocusInitial>OK</button>
 </mat-dialog-actions>

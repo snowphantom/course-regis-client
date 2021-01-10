@@ -41,6 +41,23 @@ export class CourseService {
       )
   }
 
+  create(course) : Observable<Course> {
+    return this.http.post(`${this.baseApi}/create`, course)
+      .pipe(
+        map((res: any) => {
+          if (res && res.success && res.data) {
+            this.courses.push(res.data);
+            localStorage.setItem('courses', JSON.stringify(this.courses));
+            this.coursesSubject.next(this.courses);
+          } else {
+            throw new Error('Có lỗi xảy ra');
+          }
+
+          return res.data;
+        })
+      )
+  }
+
   getAll() {
     return this.courses;
   }

@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  returnUrl: string;
 
   currentUser: User;
 
@@ -37,7 +36,7 @@ export class LoginComponent implements OnInit {
       if (this.currentUser && this.currentUser.token) {
         setTimeout(() => {
           this.router.navigate(['/']);
-        }, 300);
+        });
       }
     });
 
@@ -46,7 +45,6 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   get f() { return this.loginForm; }

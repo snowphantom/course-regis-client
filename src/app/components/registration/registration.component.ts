@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { getDayOfWeekVN } from 'src/app/helper/date-helper';
 import { Course } from 'src/app/models/Course';
 import { User } from 'src/app/models/User';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
@@ -29,7 +30,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     private registrationService: RegistrationService,
     private authenticateService: AuthenticateService,
     private toastrService: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   }
 
   getDayOfWeek(day: number) { 
-    return DayOfWeek[day];
+    return getDayOfWeekVN(day);
   }
 
   regisCourse(course: Course) {
@@ -68,8 +69,28 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
       data: {name: 'test', age: 18}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Diaglog close');
+    dialogRef.afterClosed().subscribe(newCourse => {
+      if (!newCourse) return;
+
+      let invalid = false;
+      for (var i in newCourse) {
+        if (!i) {
+          invalid = true;
+          break;
+        }
+      }
+
+      if (!invalid) {
+        this.courseService.create(newCourse)
+          .subscribe(course => {
+            this.toastrService.success(`Thêm học phần ${course.code} thành công.`);
+          }, err => {
+            const message = err.error && err.error.message || err.message;
+            this.toastrService.error(message);
+          });
+      } else {
+        this.toastrService.error('Thông tin chưa hợp lệ. Vui lòng thử lại.');
+      }
     });
   }
 }
