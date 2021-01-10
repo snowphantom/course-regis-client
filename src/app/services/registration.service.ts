@@ -86,6 +86,10 @@ export class RegistrationService {
     )
   }
 
+  clear() {
+    this.registrationSubject.next(undefined);
+  }
+
   mappingEnrolled(regis: Registration) : Registration {
     if (regis && regis.enrolled) {
       regis.enrolledCourse = [];

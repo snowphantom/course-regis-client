@@ -3,6 +3,9 @@ import { User } from './models/User';
 import { AuthenticateService } from './services/authenticate.service';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import { UserType } from './common/bunchOfEnum';
+import { RegistrationService } from './services/registration.service';
+
 
 @Component({
   selector: 'app-root',
@@ -27,6 +30,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private authenticateService: AuthenticateService,
+    private registrationService: RegistrationService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {
@@ -40,6 +44,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
+    this.registrationService.clear();
     this.authenticateService.logout();
     setTimeout(() => {
       this.router.navigate(['/login']);
@@ -60,6 +65,17 @@ export class AppComponent implements OnInit {
         break;
       default:
 
+    }
+  }
+
+  getPosition() {
+    switch(this.currentUser && this.currentUser.type) {
+      case UserType.Admin:
+        return "Quản trị";
+      case UserType.Student:
+        return "Học sinh";
+      default:
+        return "Người dùng";
     }
   }
 

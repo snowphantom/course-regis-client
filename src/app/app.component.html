@@ -7,6 +7,10 @@
     <span style="margin-left: 10px">Hệ thống đăng ký tín chỉ</span>
     
     <span class="example-spacer"></span>
+
+    <button *ngIf="currentUser" mat-stroked-button matTooltip="Thông tin người dùng">
+      <mat-icon>account_box</mat-icon> {{currentUser.name + ' (' + getPosition() + ')'}}
+    </button>
     
     <button *ngIf="currentUser" (click)="logout()" mat-icon-button matTooltip="Đăng xuất">
       <mat-icon>login</mat-icon>
