@@ -17,7 +17,7 @@ import { NewcourseFormComponent } from '../newcourse-form/newcourse-form.compone
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['code', 'name', 'venue', 'day', 'start_time', 'end_time', 'regis'];
+  displayedColumns: string[] = ['code', 'name', 'venue', 'day', 'start_time', 'end_time', 'action'];
   dataSource: MatTableDataSource<Course>;
 
   @ViewChild(MatPaginator,  {static: false}) paginator: MatPaginator;
@@ -92,5 +92,15 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         this.toastrService.error('Thông tin chưa hợp lệ. Vui lòng thử lại.');
       }
     });
+  }
+
+  deleteCourse(course: Course) {
+    this.courseService.remove(course)
+      .subscribe((res) => {
+        this.toastrService.success(res.message || 'Remove success');
+      }, err => {
+        const message = err.error && err.error.message || err.message;
+        this.toastrService.error(message);
+      });
   }
 }

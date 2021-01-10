@@ -25,6 +25,9 @@ export class RegistrationService {
 
     this.courseService.coursesSubject.subscribe(x => {
       this.courses = x;
+
+      if (this.registration && this.registration.enrolled)
+        this.registrationSubject.next(this.mappingEnrolled(this.registration));
     });
 
     this.registrationSubject.subscribe(regis => {

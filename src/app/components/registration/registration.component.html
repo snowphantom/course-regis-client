@@ -39,10 +39,17 @@
         <td mat-cell *matCellDef="let element"> {{element.end_time}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="regis">
-        <th mat-header-cell *matHeaderCellDef> Đăng ký </th>
+      <ng-container *ngIf="currentUser.type === UserType.Student" matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Hành động </th>
         <td mat-cell *matCellDef="let element">
-            <button [disabled]="currentUser.type !== UserType.Student" (click)="regisCourse(element)" mat-raised-button color="primary">Đăng ký</button>
+            <button (click)="regisCourse(element)" mat-raised-button color="primary">Đăng ký</button>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="currentUser.type === UserType.Admin" matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Hành động </th>
+        <td mat-cell *matCellDef="let element">
+            <button (click)="deleteCourse(element)" mat-raised-button color="warn">Xóa</button>
         </td>
       </ng-container>
   

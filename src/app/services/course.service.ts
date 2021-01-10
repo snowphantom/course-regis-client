@@ -57,6 +57,26 @@ export class CourseService {
       )
   }
 
+  remove(course: Course) : Observable<any> {
+    return this.http.delete(`${this.baseApi}/remove`, {
+      params: { code: course.code }
+    }).pipe(
+      map((res: any) => {
+        if (res && res.success) {
+          const index = this.courses.findIndex(x => x.code === course.code);
+          if (index >= 0) {
+            this.courses.splice(index, 1);
+            localStorage.setItem('courses', JSON.stringify(this.courses));
+            this.coursesSubject.next(this.courses);
+          }
+
+          return res;
+        } else 
+          throw new Error('Có lỗi xảy ra.')
+      })
+    )
+  }
+
   getAll() {
     return this.courses;
   }
