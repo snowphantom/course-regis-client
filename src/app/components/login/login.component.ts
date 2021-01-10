@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
           this.submitted = false;
           this.loading = false;
 
-          this.toastrService.error(err.error && err.error.message || err);
+          this.toastrService.error(err.error && err.error.message || err.message);
         }
       )
   }

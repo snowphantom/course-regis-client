@@ -1,4 +1,4 @@
-const DayOfWeekVN: string[] = [
+export const DayOfWeekVN: string[] = [
     'Chủ nhật',
     'Thứ hai',
     'Thứ ba',

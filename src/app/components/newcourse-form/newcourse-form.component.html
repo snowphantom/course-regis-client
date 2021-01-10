@@ -3,7 +3,7 @@
     <form>
         <mat-form-field style="width: 100%;">
             <mat-label>Mã học phần</mat-label>
-            <input [formControl]="code" matInput [(ngModel)]="newCourse.code">
+            <input [formControl]="code" required matInput [(ngModel)]="newCourse.code">
             <mat-error *ngIf="code.hasError('required')">
             Vui lòng điền mã học phần
             </mat-error>
@@ -49,7 +49,7 @@
         <mat-form-field style="width: 100%;">
             <mat-label>Kết thúc</mat-label>
             <input [formControl]="end_time" matInput [(ngModel)]="newCourse.end_time">
-            <mat-error *ngIf="start_time.hasError('pattern') && !start_time.hasError('required')">
+            <mat-error *ngIf="end_time.hasError('pattern') && !end_time.hasError('required')">
                 Vui lòng kiểm tra lại thông tin
             </mat-error>
             <mat-error *ngIf="end_time.hasError('required')">

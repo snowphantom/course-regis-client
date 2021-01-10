@@ -23,8 +23,7 @@ export class CourseService {
       this.courses = courses;
     })
 
-    //this.init();
-   }
+   } 
 
   init() : Observable<Course[]> {
     return this.http.get(`${this.baseApi}/list`)
