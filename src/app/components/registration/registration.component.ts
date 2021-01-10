@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { getDayOfWeekVN } from 'src/app/helper/date-helper';
 import { Course } from 'src/app/models/Course';
+import { Registration } from 'src/app/models/Registration';
 import { User } from 'src/app/models/User';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { CourseService } from 'src/app/services/course.service';
@@ -19,6 +20,8 @@ import { NewcourseFormComponent } from '../newcourse-form/newcourse-form.compone
 export class RegistrationComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['code', 'name', 'venue', 'day', 'start_time', 'end_time', 'action'];
   dataSource: MatTableDataSource<Course>;
+  courses: Course[];
+  registration: Registration;
 
   @ViewChild(MatPaginator,  {static: false}) paginator: MatPaginator;
 
@@ -35,11 +38,23 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.courseService.coursesSubject.subscribe(courses => {
+      this.courses = courses;
       this.dataSource = new MatTableDataSource<Course>(courses);
     });
 
+    this.registrationService.registrationSubject.subscribe(regis => {
+      this.registration = regis;
+    })
+
     this.authenticateService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
+    });
+
+    this.courseService.init().subscribe(items => {
+      console.log(items);
+    }, err => {
+      let message = err.error ? err.error.message : err.message;
+      this.toastrService.error(message);
     });
   } 
 
@@ -62,6 +77,12 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
       this.toastrService.error(message);
     });
   }
+
+  getRegistated(course) {
+    return this.registration 
+    && this.registration.enrolled 
+    && this.registration.enrolled.some(x => `${x}` === `${course.code}`) || false;
+  } 
 
   newCourse() {
     const dialogRef = this.dialog.open(NewcourseFormComponent, {

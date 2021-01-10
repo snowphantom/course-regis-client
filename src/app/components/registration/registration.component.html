@@ -42,7 +42,7 @@
       <ng-container *ngIf="currentUser.type === UserType.Student" matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Hành động </th>
         <td mat-cell *matCellDef="let element">
-            <button (click)="regisCourse(element)" mat-raised-button color="primary">Đăng ký</button>
+            <button [disabled]="getRegistated(element)" (click)="regisCourse(element)" mat-raised-button color="primary">Đăng ký</button>
         </td>
       </ng-container>
 
