@@ -23,6 +23,8 @@ import { NgZeeTimeTableModule } from 'ng-zee-timetable';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NewcourseFormComponent } from './components/newcourse-form/newcourse-form.component';
 
+export function tokenGetterHelper(){ return localStorage.getItem('access_token'); }
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,8 +58,8 @@ import { NewcourseFormComponent } from './components/newcourse-form/newcourse-fo
     NgZeeTimeTableModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => localStorage.getItem('access_token'),
-        allowedDomains: ['localhost:3000']
+        tokenGetter: tokenGetterHelper,
+        allowedDomains: ['localhost:3000', 'course-regis-server.herokuapp.com', 'course-regis-client.herokuapp.com']
       }
     })
   ],

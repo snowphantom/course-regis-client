@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  hostname: "http://localhost:3000",
+  hostname: "https://course-regis-server.herokuapp.com",
 };
