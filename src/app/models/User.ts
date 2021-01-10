@@ -1,5 +1,6 @@
 export class User {
     type: number;
+    name: number;
     state: boolean;
     username: string;
     token: string;
