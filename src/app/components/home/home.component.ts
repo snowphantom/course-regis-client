@@ -37,13 +37,14 @@ export class HomeComponent implements OnInit {
           this.toastrService.error(message);
         });
 
-        this.registrationService.getEnroll(user && user.username)
-          .subscribe(enrolled => {
-            console.log("Enrolled data: ", enrolled);
-          }, (err) => {
-            let message = err.error ? err.error.message : err.message;
-            this.toastrService.error(message);
-          });
+        if (user.type === UserType.Student)
+          this.registrationService.getEnroll(user && user.username)
+            .subscribe(enrolled => {
+              console.log("Enrolled data: ", enrolled);
+            }, (err) => {
+              let message = err.error ? err.error.message : err.message;
+              this.toastrService.error(message);
+            });
       } else {
         this.router.navigate(['/login']);
       }
