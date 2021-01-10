@@ -76,5 +76,5 @@ export function tokenGetterHelper(){ return localStorage.getItem('access_token')
 })
 export class AppModule { }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+// platformBrowserDynamic().bootstrapModule(AppModule)
+//   .catch(err => console.error(err));
