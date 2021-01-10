@@ -5,7 +5,7 @@
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
   
-      <!-- Position Column -->
+      <!-- code Column -->
       <ng-container matColumnDef="code">
         <th mat-header-cell *matHeaderCellDef> Mã </th>
         <td mat-cell *matCellDef="let element"> {{element.code}} </td>
@@ -17,13 +17,13 @@
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
   
-      <!-- Weight Column -->
+      <!-- venue Column -->
       <ng-container matColumnDef="venue">
         <th mat-header-cell *matHeaderCellDef> Giảng đường </th>
         <td mat-cell *matCellDef="let element"> {{element.venue}} </td>
       </ng-container>
   
-      <!-- Symbol Column -->
+      <!-- day Column -->
       <ng-container matColumnDef="day">
         <th mat-header-cell *matHeaderCellDef> Thứ </th>
         <td mat-cell *matCellDef="let element"> {{getDayOfWeek(element.day)}} </td>
