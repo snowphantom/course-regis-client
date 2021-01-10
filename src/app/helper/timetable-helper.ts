@@ -6,7 +6,7 @@ import { getDayOfWeekVN } from "./date-helper";
 export function registration2TimetableData(regis: Registration) {
     let tableData: NgZeeTimeTableData = {};
 
-    regis.enrolledCourse.forEach(element => {
+    regis && regis.enrolledCourse && regis.enrolledCourse.forEach(element => {
         let dataDay = tableData[`${getDayOfWeekVN(element.day)}`] || {};
         let dataElement = {
             title: element.name,

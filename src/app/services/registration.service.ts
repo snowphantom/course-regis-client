@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Course } from '../models/Course';
@@ -15,16 +15,18 @@ export class RegistrationService {
   baseApi = `${environment.hostname}/api/registration`;
   courses: Course[];
 
-  registration: Registration;
+  registration: Registration = null;
   registrationSubject = new Subject<Registration>();
 
   constructor(
     private http: HttpClient,
     private courseService: CourseService
   ) {
+
     this.courseService.coursesSubject.subscribe(x => {
       this.courses = x;
     });
+
     this.registrationSubject.subscribe(regis => {
       this.registration = regis;
     });

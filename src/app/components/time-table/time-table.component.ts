@@ -25,15 +25,10 @@ export class TimeTableComponent implements OnInit {
   ngOnInit() {
     const user = this.authenticateService.currentUser;
     
-    if (user) {
-      this.registrationService.getEnroll(user && user.username)
-      .subscribe(enrolled => {
-        this.data = registration2TimetableData(enrolled);
-      }, (err) => {
-        let message = err.error ? err.error.message : err.message;
-        this.toastrService.error(message);
-      });
-    }
+    this.data = registration2TimetableData(this.registrationService.registration);
+    this.registrationService.registrationSubject.subscribe(registration => {
+      this.data = registration2TimetableData(registration);
+    });
   }
 
   options: NgZeeTimeTableOptions = {
